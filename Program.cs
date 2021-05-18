@@ -28,7 +28,8 @@ namespace FeelingFroggy
             Console.CursorVisible = false;
             Console.WriteLine("    Welcome");
             Console.WriteLine("      To   ");
-            Console.WriteLine("  Ben And Ryan's");
+            Console.WriteLine("  Ben, Ryan, and");
+            Console.WriteLine("      Jacob's");
             Console.WriteLine("  Rendition Of");
             Console.WriteLine("    Frogger!  ");
             Console.WriteLine("              ");
@@ -46,7 +47,7 @@ namespace FeelingFroggy
             Console.WriteLine("  \\ \\ / ,.\\ / / ");
             Console.WriteLine("    ) '| || |' (   ");
             Console.WriteLine(" oO'- OoO''OoO -'Oo");
-            Console.ReadKey();
+            System.Threading.Thread.Sleep(750);
             Console.Clear();
         }
         public void InstructionScreen()
@@ -59,21 +60,8 @@ namespace FeelingFroggy
             Console.WriteLine("       Frog");
             Console.WriteLine("                 ");
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("  Birds Kill You");
+            Console.WriteLine("  Cars Kill You");
             Console.WriteLine("  Walls Kill You");
-            Console.ReadKey();
-            Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("    Very Little");
-            Console.WriteLine("      DOESN'T");
-            Console.WriteLine("     Kill You.");
-            Console.WriteLine("                 ");
-            Console.ResetColor();
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("       Tread");
-            Console.WriteLine("     Carefully");
-            Console.WriteLine("        But");
-            Console.WriteLine("      Quickly!");
             Console.ReadKey();
             Console.Clear();
         }
