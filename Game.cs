@@ -14,6 +14,7 @@ namespace FeelingFroggy
         public int Window_Height = 12;
         public int Window_Width = 19;
         private bool _gameOn = true;
+        private int _score = 0;
         //public int BuffW = 24;
         //public int BuffH = 30;
 
@@ -22,6 +23,7 @@ namespace FeelingFroggy
         {
             CurrentFrog = new Frog(8, 10, 1);
             _gameOn = true;
+            Console.Clear();
             GameLoop();
 
         }
@@ -67,10 +69,11 @@ namespace FeelingFroggy
 
         private void DrawFrame()
         {
-            Console.Clear();
             Console.SetCursorPosition(0, 0);
             Console.ForegroundColor = ConsoleColor.White;
             MyWorld.Draw();
+            EraseCarNoses();
+            Score();
             CurrentFrog.Draw();
         }
 
@@ -108,25 +111,41 @@ namespace FeelingFroggy
         {
 
             string[,] grid = {
-                {"|" , "~" , "~" , "~" , "~" , "~" , "~" , "~" , "~" , "~" ,"~" , "~" , "~" , "~" , "~" , "|" }, //  16x12
-                {"|" , "=" , "=" , "$" , "$" , "=" , "=" , "=" , "=" , "=" ,"=" , "$" , "$" , "=" , "=" , "|" }, // End
-                {"|" , " " , " " , " " , " " , " " , " " , " " , " " , " " ," " , " " , " " , " " , " " , "|" }, // Danger
-                {"|" , " " , " " , " " , " " , " " , " " , " " , " " , " " ," " , " " , " " , " " , " " , "|" }, // Danger
-                {"|" , " " , " " , " " , " " , " " , " " , " " , " " , " " ," " , " " , " " , " " , " " , "|" }, // Danger
-                {"|" , " " , " " , " " , " " , " " , " " , " " , " " , " " ," " , " " , " " , " " , " " , "|" }, // Safe
-                {"|" , " " , " " , " " , " " , " " , " " , " " , " " , " " ," " , " " , " " , " " , " " , "|" }, // Safe
-                {"|" , " " , " " , " " , " " , " " , " " , " " , " " , " " ," " , " " , " " , " " , " " , "|" }, // Danger
-                {"|" , " " , " " , " " , " " , " " , " " , " " , " " , " " ," " , " " , " " , " " , " " , "|" }, // Danger
-                {"|" , " " , " " , " " , " " , " " , " " , " " , " " , " " ," " , " " , " " , " " , " " , "|" }, // Danger
-                {"|" , " " , " " , " " , " " , " " , " " , " " , " " , " " ," " , " " , " " , " " , " " , "|" }, // Start 
-                {"|" , "=" , "=" , "=" , "=" , "=" , "=" , "=" , "=" , "=" ,"=" , "=" , "=" , "=" , "=" , "|" },
+                {"|" , "~" , "S" , "c" , "o" , "r" , "e" , ":" , " " , " " ," " , "~" , "~" , "~" , "~" , "|" , " " , " " }, //  16x12
+                {"|" , "=" , "=" , "$" , "$" , "=" , "=" , "=" , "=" , "=" ,"=" , "$" , "$" , "=" , "=" , "|" , " " , " " }, // End
+                {"|" , " " , " " , " " , " " , " " , " " , " " , " " , " " ," " , " " , " " , " " , " " , "|" , " " , " " }, // Danger
+                {"|" , " " , " " , " " , " " , " " , " " , " " , " " , " " ," " , " " , " " , " " , " " , "|" , " " , " " }, // Danger
+                {"|" , " " , " " , " " , " " , " " , " " , " " , " " , " " ," " , " " , " " , " " , " " , "|" , " " , " " }, // Danger
+                {"|" , " " , " " , " " , " " , " " , " " , " " , " " , " " ," " , " " , " " , " " , " " , "|" , " " , " " }, // Safe
+                {"|" , " " , " " , " " , " " , " " , " " , " " , " " , " " ," " , " " , " " , " " , " " , "|" , " " , " " }, // Safe
+                {"|" , " " , " " , " " , " " , " " , " " , " " , " " , " " ," " , " " , " " , " " , " " , "|" , " " , " " }, // Danger
+                {"|" , " " , " " , " " , " " , " " , " " , " " , " " , " " ," " , " " , " " , " " , " " , "|" , " " , " " }, // Danger
+                {"|" , " " , " " , " " , " " , " " , " " , " " , " " , " " ," " , " " , " " , " " , " " , "|" , " " , " " }, // Danger
+                {"|" , " " , " " , " " , " " , " " , " " , " " , " " , " " ," " , " " , " " , " " , " " , "|" , " " , " " }, // Start 
+                {"|" , "=" , "=" , "=" , "=" , "=" , "=" , "=" , "=" , "=" ,"=" , "=" , "=" , "=" , "=" , "|" , " " , " " },
 
             };
             return grid;
         }
-
-        public string Grid2()
+        public void EraseCarNoses()
         {
+            // You need this because it can print the larger cars outside of the buffer zone and left stuff over
+            int[] rows = { 2, 3, 4, 5, 6, 7, 8, 9 };
+            foreach (int y in rows)
+            {
+            Console.SetCursorPosition(18, y);
+            Console.Write(" ");
+            }
+        }
+
+        public void Score()
+        {
+            Console.SetCursorPosition(9, 0);
+            Console.Write(_score);
+        }
+        public string GridAsString()
+        {
+            // Unused
             //16x12
             string grid =
                 "\n|~~~~~~~~~~~~~~|\n" +
@@ -149,7 +168,7 @@ namespace FeelingFroggy
         {
             for (int i = 0; i < carLength; i++)
             {
-                if (x+i == CurrentFrog.X && y == CurrentFrog.Y)
+                if (x + i == CurrentFrog.X && y == CurrentFrog.Y)
                 {
                     YouLoose();
                     return true;
@@ -202,6 +221,7 @@ namespace FeelingFroggy
                 Console.WriteLine("Congratulations, \nyou WON!");
                 Console.ResetColor();
                 Console.ReadKey();
+                _score++;
                 _gameOn = false;
                 return false;
             }
@@ -213,6 +233,7 @@ namespace FeelingFroggy
         public void YouLoose()
         {
             _gameOn = false;
+            _score = 0;
             Console.Clear();
             Console.SetCursorPosition(0, 0);
             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -237,8 +258,9 @@ namespace FeelingFroggy
                 { phase = 1; }
 
                 while (Console.KeyAvailable) { PlayerInput(); }
-                System.Threading.Thread.Sleep(15);
+                System.Threading.Thread.Sleep(5);
             }
+
         }
     }
 
